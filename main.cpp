@@ -14,7 +14,7 @@
 
 using namespace std;
 
-// ======================= کلاس خرید =======================
+// ============= کلاس خرید 
 class Purchase
 {
 public:
@@ -32,7 +32,7 @@ public:
     }
 };
 
-// ======================= کلاس خریدار =======================
+// ================== کلاس خریدار 
 class Buyer
 {
 public:
@@ -52,7 +52,7 @@ public:
     }
 };
 
-// ======================= کلاس سرمایه‌گذار =======================
+// کلاس سرمایه‌گذار 
 class Investor
 {
 public:
@@ -67,7 +67,7 @@ public:
     }
 };
 
-// ======================= کلاس کارخانه =======================
+// ======================= کلاس کارخانه =
 class Factory
 {
 private:
@@ -92,7 +92,7 @@ public:
         loadInvestors();
     }
 
-    // ---------- خواندن خریداران ----------
+    // خواندن خریدارا----------
     void loadBuyers()
     {
         ifstream file("buyers.txt");
@@ -108,7 +108,7 @@ public:
         file.close();
     }
 
-    // ---------- ذخیره خریداران ----------
+    //  ذخیره خریداران -
     void saveBuyers()
     {
         ofstream file("buyers.txt");
@@ -123,7 +123,7 @@ public:
         file.close();
     }
 
-    // ---------- خواندن سرمایه‌گذاران ----------
+    // - خواندن سرمایه‌گذاران *****
     void loadInvestors()
     {
         ifstream file("investors.txt");
@@ -139,7 +139,7 @@ public:
         file.close();
     }
 
-    // ---------- ذخیره سرمایه‌گذاران ----------
+    //  ذخیره سرمایه‌گذاران 
     void saveInvestors()
     {
         ofstream file("investors.txt");
@@ -154,7 +154,7 @@ public:
         file.close();
     }
 
-    // ---------- افزودن خریدار ----------
+    ///// افزودن خریدار 
     void addBuyer()
     {
         Buyer b;
@@ -170,12 +170,12 @@ public:
         saveBuyers();
     }
 
-    // ---------- افزودن سرمایه‌گذار ----------
+    // -------افزودن سرمایه‌گذار 
     void addInvestor()
     {
         if (investorCount >= 50)
         {
-            cout << "❌ ظرفیت سرمایه‌گذاران پر است\n";
+            cout << " ظرفیت سرمایه‌گذاران پر است\n";
             return;
         }
 
@@ -193,7 +193,7 @@ public:
         saveInvestors();
     }
 
-    // ---------- دسترسی‌ها برای مراحل بعد ----------
+    // -------دسترسی‌هاد ----------
     int getBuyerCount() { return buyerCount; }
     int getInvestorCount() { return investorCount; }
 
@@ -202,4 +202,134 @@ public:
 
     void increaseSold(int amount) { totalSold += amount; }
     int getTotalSold() { return totalSold; }
+
+    // ======================= ثبت خرید خریدار =======================
+void buyerPurchase()
+{
+    string user, pass;
+    cout << "نام کاربری: ";
+    cin >> user;
+    cout << "رمز عبور: ";
+    cin >> pass;
+
+    for (int i = 0; i < buyerCount; i++)
+    {
+        if (buyers[i].username == user && buyers[i].password == pass)
+        {
+            Purchase p;
+            p.buyerUsername = user;
+
+            cout << "مقدار خرید: ";
+            cin >> p.amount;
+
+            cout << "تاریخ (مثال 1404/11): ";
+            cin >> p.date;
+
+            buyers[i].totalPurchase += p.amount;
+            totalSold += p.amount;
+
+            p.writeToFile();
+            saveBuyers();
+
+            cout << "✅ خرید ثبت شد\n";
+            return;
+        }
+    }
+
+    cout << " خریدار یافت نشد\n";
+}
+
+// ======================= گزارش ماهانه 
+void monthlyReport()
+{
+    string targetDate;
+    cout << "ماه/سال گزارش (مثال 1404/11): ";
+    cin >> targetDate;
+
+    ifstream file("purchases.txt");
+    if (!file)
+    {
+        cout << " فایل خرید وجود ندارد\n";
+        return;
+    }
+
+    string user, date;
+    int amount;
+    int sum = 0;
+
+    while (file >> user >> amount >> date)
+    {
+        if (date == targetDate)
+        {
+            sum += amount;
+        }
+    }
+
+    file.close();
+
+    cout << "📊 مجموع فروش در " << targetDate
+         << " = " << sum << " تن\n";
+}
+
+//  منوی سرمایه‌گذار =======================
+void investorMenu()
+{
+    string name, pass;
+    cout << "نام سرمایه‌گذار: ";
+    cin >> name;
+    cout << "رمز عبور: ";
+    cin >> pass;
+
+    for (int i = 0; i < investorCount; i++)
+    {
+        if (investors[i].name == name &&
+            investors[i].password == pass)
+        {
+            int choice;
+            cout << "\n1. مشاهده سرمایه\n";
+            cout << "2. فروش کل سرمایه\n";
+            cout << "انتخاب: ";
+            cin >> choice;
+
+            if (choice == 1)
+            {
+                cout << "💰 سرمایه شما: "
+                     << investors[i].capital << endl;
+            }
+            else if (choice == 2)
+            {
+                cout << " سرمایه فروخته شد\n";
+
+                // حذف سرمایه‌گذار
+                for (int j = i; j < investorCount - 1; j++)
+                {
+                    investors[j] = investors[j + 1];
+                }
+
+                investorCount--;
+                saveInvestors();
+            }
+            return;
+        }
+    }
+
+    cout << " سرمایه‌گذار یافت نشد\n";
+}
+
+//  نمایش سرمایه‌گذاران 
+void showAllInvestors()
+{
+    cout << "\n لیست سرمایه‌گذاران:\n";
+    for (int i = 0; i < investorCount; i++)
+    {
+        investors[i].show();
+    }
+}
+
+
+
+
+
+
+
 };
