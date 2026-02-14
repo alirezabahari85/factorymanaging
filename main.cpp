@@ -14,7 +14,7 @@
 
 using namespace std;
 
-// ============= کلاس خرید 
+// ======================= کلاس خرید =======================
 class Purchase
 {
 public:
@@ -333,3 +333,124 @@ void showAllInvestors()
 
 
 };
+
+
+// =========== منوی خریدار ===
+void buyerMenu(Factory &factory)
+{
+    int choice;
+    do
+    {
+        cout << "\n--- منوی خریدار ---\n";
+        cout << "1. ثبت خرید\n";
+        cout << "0. بازگشت\n";
+        cout << "انتخاب: ";
+        cin >> choice;
+
+        if (choice == 1)
+            factory.buyerPurchase();
+
+    } while (choice != 0);
+}
+
+// === منوی کارمند ===
+void employeeMenu(Factory &factory)
+{
+    int choice;
+    do
+    {
+        cout << "\n--- منوی کارمند ---\n";
+        cout << "1. گزارش فروش ماهانه\n";
+        cout << "0. بازگشت\n";
+        cout << "انتخاب: ";
+        cin >> choice;
+
+        if (choice == 1)
+            factory.monthlyReport();
+
+    } while (choice != 0);
+}
+
+// ==== منوی رییس کارخانه 
+void bossMenu(Factory &factory)
+{
+    int choice;
+    do
+    {
+        cout << "\n=== منوی رییس کارخانه ===\n";
+        cout << "1. افزودن خریدار\n";
+        cout << "2. افزودن سرمایه‌گذار\n";
+        cout << "3. مشاهده سرمایه‌گذاران\n";
+        cout << "4. گزارش فروش ماهانه\n";
+        cout << "0. خروج\n";
+        cout << "انتخاب: ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            factory.addBuyer();
+            break;
+        case 2:
+            factory.addInvestor();
+            break;
+        case 3:
+            factory.showAllInvestors();
+            break;
+        case 4:
+            factory.monthlyReport();
+            break;
+        }
+
+    } while (choice != 0);
+}
+
+// =======================main 
+int main()
+{
+    Factory factory;
+    int role;
+
+    do
+    {
+        cout << "\n==============================\n";
+        cout << "  سیستم مدیریت کارخانه فولاد\n";
+        cout << "==============================\n";
+        cout << "1. خریدار\n";
+        cout << "2. کارمند\n";
+        cout << "3. سرمایه‌گذار\n";
+        cout << "4. رییس کارخانه\n";
+        cout << "0. خروج\n";
+        cout << "انتخاب نقش: ";
+        cin >> role;
+
+        switch (role)
+        {
+        case 1:
+            buyerMenu(factory);
+            break;
+        case 2:
+            employeeMenu(factory);
+            break;
+        case 3:
+            factory.investorMenu();
+            break;
+        case 4:
+            bossMenu(factory);
+            break;
+        }
+
+    } while (role != 0);
+
+    cout << "خروج از برنامه\n";
+    return 0;
+}
+
+
+
+
+
+
+
+
+
