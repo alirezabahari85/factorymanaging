@@ -14,6 +14,11 @@
 
 using namespace std;
 
+
+
+
+
+
 // ======================= کلاس خرید =======================
 class Purchase
 {
@@ -31,6 +36,11 @@ public:
         file.close();
     }
 };
+
+
+
+
+
 
 // ================== کلاس خریدار 
 class Buyer
@@ -52,6 +62,10 @@ public:
     }
 };
 
+
+
+
+
 // کلاس سرمایه‌گذار 
 class Investor
 {
@@ -66,6 +80,9 @@ public:
              << " | سرمایه: " << capital << endl;
     }
 };
+
+
+
 
 // ======================= کلاس کارخانه =
 class Factory
@@ -92,6 +109,11 @@ public:
         loadInvestors();
     }
 
+
+
+
+
+
     // خواندن خریدارا----------
     void loadBuyers()
     {
@@ -108,6 +130,11 @@ public:
         file.close();
     }
 
+
+
+
+
+
     //  ذخیره خریداران -
     void saveBuyers()
     {
@@ -122,6 +149,12 @@ public:
 
         file.close();
     }
+
+
+
+
+
+
 
     // - خواندن سرمایه‌گذاران *****
     void loadInvestors()
@@ -335,7 +368,7 @@ void showAllInvestors()
 };
 
 
-// =========== منوی خریدار ===
+// =====1====== منوی خریدار ===
 void buyerMenu(Factory &factory)
 {
     int choice;
@@ -356,17 +389,28 @@ void buyerMenu(Factory &factory)
 // === منوی کارمند ===
 void employeeMenu(Factory &factory)
 {
-    int choice;
+    int choice , password = 1597 , inputPassword ;
     do
     {
-        cout << "\n--- منوی کارمند ---\n";
-        cout << "1. گزارش فروش ماهانه\n";
+        cout << "\nرمز ورود : \n";
+        cin>> inputPassword ;
+        if (inputPassword == password){
+            cout << "\n--- منوی کارمند ---\n";
+        cout << "\n1.افزودن حریدار\n";
+        cout << "2. گزارش فروش ماهانه\n";
         cout << "0. بازگشت\n";
         cout << "انتخاب: ";
         cin >> choice;
 
-        if (choice == 1)
+        if (choice == 2)
             factory.monthlyReport();
+
+        else if (choice == 1)
+            factory.addBuyer(); }
+        else{
+            cout<<"password denied";
+        }
+         
 
     } while (choice != 0);
 }
@@ -374,10 +418,12 @@ void employeeMenu(Factory &factory)
 // ==== منوی رییس کارخانه 
 void bossMenu(Factory &factory)
 {
-    int choice;
+    int choice , bossPassword = 9874 , inputBossPassword ;
     do
     {
-        cout << "\n=== منوی رییس کارخانه ===\n";
+        cout << "\nرمز ورود : \n";
+        cin>> inputBossPassword ;
+        if (inputBossPassword == bossPassword){cout << "\n=== منوی رییس کارخانه ===\n";
         cout << "1. افزودن خریدار\n";
         cout << "2. افزودن سرمایه‌گذار\n";
         cout << "3. مشاهده سرمایه‌گذاران\n";
@@ -400,7 +446,11 @@ void bossMenu(Factory &factory)
         case 4:
             factory.monthlyReport();
             break;
+        }}
+        else{
+            cout<<"wrong pass .....";
         }
+        
 
     } while (choice != 0);
 }
