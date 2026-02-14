@@ -3,15 +3,9 @@
 //investors.txt
 //purchases.txt
 
-
-
-
-
-
 #include <iostream>
 #include <fstream>
 #include <string>
-
 using namespace std;
 
 
@@ -19,7 +13,7 @@ using namespace std;
 
 
 
-// ======================= کلاس خرید =======================
+//  کلاس خرید ========
 class Purchase
 {
 public:
@@ -226,7 +220,7 @@ public:
         saveInvestors();
     }
 
-    // -------دسترسی‌هاد ----------
+    // -------دسترسی‌-----
     int getBuyerCount() { return buyerCount; }
     int getInvestorCount() { return investorCount; }
 
@@ -236,7 +230,7 @@ public:
     void increaseSold(int amount) { totalSold += amount; }
     int getTotalSold() { return totalSold; }
 
-    // ======================= ثبت خرید خریدار =======================
+    // =======================ثبت خرید خریدار ======
 void buyerPurchase()
 {
     string user, pass;
@@ -264,7 +258,7 @@ void buyerPurchase()
             p.writeToFile();
             saveBuyers();
 
-            cout << "✅ خرید ثبت شد\n";
+            cout << " خرید ثبت شد\n";
             return;
         }
     }
@@ -300,7 +294,7 @@ void monthlyReport()
 
     file.close();
 
-    cout << "📊 مجموع فروش در " << targetDate
+    cout << " مجموع فروش در " << targetDate
          << " = " << sum << " تن\n";
 }
 
@@ -326,7 +320,7 @@ void investorMenu()
 
             if (choice == 1)
             {
-                cout << "💰 سرمایه شما: "
+                cout << " سرمایه شما: "
                      << investors[i].capital << endl;
             }
             else if (choice == 2)
@@ -359,11 +353,17 @@ void showAllInvestors()
     }
 }
 
+void showAllBuyers() {
+    if (buyerCount == 0) {
+        cout << "No buyers registered.\n";
+        return;
+    }
 
-
-
-
-
+    for (int i = 0; i < buyerCount; i++) {
+        buyers[i].show();
+        cout << "------------------\n";
+    }
+}
 
 };
 
@@ -398,15 +398,19 @@ void employeeMenu(Factory &factory)
             cout << "\n--- منوی کارمند ---\n";
         cout << "\n1.افزودن حریدار\n";
         cout << "2. گزارش فروش ماهانه\n";
+        cout << "3. نشان دادن خریداران\n";
         cout << "0. بازگشت\n";
         cout << "انتخاب: ";
         cin >> choice;
 
         if (choice == 2)
             factory.monthlyReport();
-
         else if (choice == 1)
-            factory.addBuyer(); }
+            factory.addBuyer(); 
+        else if (choice == 3)
+            factory.showAllBuyers();
+            
+        }
         else{
             cout<<"password denied";
         }
